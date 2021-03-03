@@ -121,14 +121,21 @@
           <p class="leading-normal text-2xl mb-8">
           <span data-trans-desc>Would you like to create compelling and useful chatbots?</span>
           </p>
+          <div class="py-6 mb-4 flex md:justify-end justify-center">
           <button 
               onclick="location.href='mailto:nexus.chai@gmail.com'" type="button"
-              class="mx-auto hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+              class="mx-5 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             style="z-index: 10"
               >
             <span data-trans-ct>Contact</span>
- 
+           <button 
+              onclick="location.href='docs.html'" type="button"
+              class="mx-5 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            style="z-index: 10"
+              >
+            <span data-trans-gs>Get Started</span>
           </button>
+          </div>
         </div>
         <!--Right Col-->
         <div class="items-start w-full md:w-3/5 py-6 mb-4 text-center flex md:justify-end justify-center">
@@ -373,12 +380,14 @@
 <title>jQuery Translate.js Example</title>
 <script>
 var txt = {
-"en":{"hey":"Home",
+"en":{
+        "hey":"Home",
         "docs": "Docs",
         "blog": "Blog", 
         "priv": "Privacy Policy", 
         "terms": "Terms", 
         "ct": "Contact",
+        "gs": "Get Started",
         "ai": "Make conversations more fun",
         "fun": "Build the next generation of conversational AI",
         "desc": "We are the data science platform for deploying and interacting with state-of-the-art conversational AI."
@@ -389,6 +398,7 @@ var txt = {
     "priv": "隱私政策", 
     "terms": "條款",
     "ct": "聯繫",
+    "gs": "Get Started",
     "ai": "你想和人工智能說話嗎?",
     "fun": "使對話更有趣！",
     "desc": "飛機是一款新的短信應用，可讓您與朋友，家人甚至陌生人進行更好的對話。"

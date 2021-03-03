@@ -187,6 +187,8 @@ Error message and password prompt
 
 <li>$:/themes/tiddlywiki/vanilla</li>
 
+<li>Creating &amp; deploying a chatbot locally</li>
+
 <li>Getting Started</li>
 
 </ul>
@@ -10121,7 +10123,7 @@ Error message and password prompt
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div created="20210220150644961" list="$:/ControlPanel [[Getting Started]]" modified="20210220150727612" title="$:/StoryList">
+<div list="[[Creating &amp; deploying a chatbot locally]] [[Getting Started]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20210220143709920" modified="20210220143709920" title="$:/theme">
@@ -10236,11 +10238,172 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20210220142741113" modified="20210220142806396" tags="chaiPy" title="Getting Started">
-<pre>\define lingo-base() $:/language/ControlPanel/Basics/
-ChaiPy
-&quot;Getting Started&quot;
+<div created="20210303081339863" modified="20210303105759717" tags="chaiPy tutorial" title="Creating &amp; deploying a chatbot locally" type="text/vnd.tiddlywiki">
+<pre>This Quickstart shows you how to set up your bot, test it, and deploy it to the Chai app from your local development environment. 
+
+!! Installing chaiPy
+
+```
+pip install -i https://test.pypi.org/simple/ --upgrade chaipy
+```
+This `pip install` command also installs the following requirements:
+
+* `requests` to help verify the chatbot when packaging it.
+
+* `colorama` for colorful logs!
+
+* `typing-extensions` for type hints used by the library introduced in later versions of Python (backported to Python 3.7 in this library)
+
+!! Your First Bot
+
+Let's get started writing a simple chatbot. As a start, let's log &quot;Let's set up our class!&quot; to the console when our chatbot is loaded, and simply reply &quot;Hi I'm ExampleBot&quot; to every message.  
+
+Make a file named bot, and inside it create a file called bot.py, and write the following:
+
+```python
+from chai_py import ChaiBot, Update
+
+class Bot(ChaiBot):
+    def setup(self):
+        self.logger.info(&quot;Let's set up our class!&quot;)
+
+    async def on_message(self, update: Update) -&gt; str:
+        return &quot;Hi, I'm ExampleBot.&quot;
+```
+
+# 1. We import `ChaiBot` as our chatbot subclasses it, while `Update` indicates the type of the `update` argument in `on_message`.
+# 2. The `ChaiBot` class does some convenient setup for us, and provides us with `self.logger` which we'll use to say &quot;Let's set up our class!&quot;.
+# 3. We then override the `on_message()` method and return a string. Note the signature of this method (i.e. the arguments it takes, and its return type). This cannot be changed, meaning the bot should always return a string. This string will be your bot's message to you!
+
+!! Chatting with your bot before deploying it
+
+In a separate file write (or simply under `if __name__==&quot;__main__&quot;:` in bot.py), write the following:
+
+```
+from bot import Bot  # importing from bot.py
+from chai_py import TRoom
+
+t_room = TRoom([Bot()])
+t_room.start()
+```
+
+You'll see output like this:
+
+```
+2021-02-28 20:42:00 | INFO     | Bot | Hello, world!
+Starting TRoom. Press ctrl-c to escape.
+&lt;&lt;&lt; __first
+&gt;&gt;&gt; Hi, I'm ExampleBot.
+Enter your message: Hello there!
+&lt;&lt;&lt; Hello there!
+&gt;&gt;&gt; Hi, I'm ExampleBot.
+Enter your message: Bye!
+&lt;&lt;&lt; Bye!
+&gt;&gt;&gt; Hi, I'm ExampleBot.
+Interrupted TRoom.
+```
+
+This is how you can test your bot before deploying it.
+
+!! Package and upload your first bot
+
+Packaging the bot involves:
+1. Creating a zip archive containing the bot.
+2. Uploading this zip archive.
+
+Again, in a separate file (or simply under `if __name__==&quot;__main__&quot;:` in bot.py) write the following:
+
+```
+from chai_py import package, Metadata
+from chai_py.defaults import GUEST_UID
+
+package(
+    Metadata(
+        name='Example Bot',
+        image_url='http://picsum.photos/seed/256/256',
+        color='f1a2b3',
+        developer_uid=GUEST_UID,
+        description='I am an example bot.',
+        input_class=Bot,
+    )
+)
+
+```
+
+Which will give you an output like this:
+
+```
+Running verification checks on metadata.
+Prepared metadata:
+{'color': 'f1a2b3',
+ 'description': 'I am an example bot.',
+ 'developerUid': '20c900f0-e6f5-440c-bd83-e1ad894ad598',
+ 'imageUrl': 'http://picsum.photos/seed/example_bot/256/256',
+ 'inputClass': 'Bot',
+ 'inputFile': 'bot',
+ 'name': 'Example Bot'}
+Preparing temporary directory...
+Created zip package at /content/bot/package.zip.
+```
+
+The `package` function creates the necessary archive, and performs a couple basic checks.
+
+!! Deploying and Uploading
+
+Deployment should only be done once you're sure the bot is in a state where you want others to be able to chat with it.
+
+To deploy the package so you and everyone else can chat to the bot, run the `upload_and_deploy` function.
+
+
+```
+from chai_py import upload_and_deploy
+
+upload_and_deploy(&quot;bot/package.zip&quot;)
+```
+
+Putting this all together, your code should look something a bit like this:
+
+```
+# bot/bot.py
+
+from chai_py import ChaiBot, Update
+
+class Bot(ChaiBot):
+    def setup(self):
+        self.logger.info(&quot;Let's set up our class!&quot;)
+
+    async def on_message(self, update: Update) -&gt; str:
+        return &quot;Hi, I'm ExampleBot.&quot;
+
+if __name__==&quot;__main__&quot;:
+    from chai_py import TRoom
+
+    t_room = TRoom([Bot()])
+    t_room.start()
+
+    # Uncomment the following when you're ready to share your bot!
+    #from chai_py import upload_and_deploy
+
+    #upload_and_deploy(&quot;bot/package.zip&quot;)
+```
+
+
 </pre>
+</div>
+<div created="20210220142741113" modified="20210303105829475" tags="chaiPy" title="Getting Started" type="text/vnd.tiddlywiki">
+<pre>\define lingo-base() $:/language/ControlPanel/Basics/
+
+Welcome to chaiPy! Our package allows you to build your own chat bot and deploy it on the Chai app ([[download the iPhone app here|https://testflight.apple.com/join/NTbAiv8K]]) all within the space of a few minutes.
+
+!! Recommended
+To develop your bot in a Google Colab notebook, follow the tutorial here:
+
+https://colab.research.google.com/drive/1YB6mQkcmisEBIHOjvGnWi0z9lLiaRNT5?usp=sharing#scrollTo=96u3ccs_YgvK
+
+!! Developing your bot locally
+If you'd like to deploy your bot locally, the experience will be just as smooth as deploying it from a notebook. However, we don't recommend this method because you'll have to install a few dependencies yourself.
+
+[[See the documentation here|Creating &amp; deploying a chatbot locally]]</pre>
 </div>
 
 

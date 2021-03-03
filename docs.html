@@ -10123,7 +10123,7 @@ Error message and password prompt
 <div title="$:/status/RequireReloadDueToPluginChange">
 <pre>no</pre>
 </div>
-<div list="[[Creating &amp; deploying a chatbot locally]] [[Getting Started]]" title="$:/StoryList">
+<div created="20210303122341344" list="[[Getting Started]] [[Creating &amp; deploying a chatbot locally]]" modified="20210303122341344" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20210220143709920" modified="20210220143709920" title="$:/theme">
@@ -10238,7 +10238,7 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20210303081339863" modified="20210303105759717" tags="chaiPy tutorial" title="Creating &amp; deploying a chatbot locally" type="text/vnd.tiddlywiki">
+<div created="20210303081339863" modified="20210303121448403" tags="chaiPy tutorial" title="Creating &amp; deploying a chatbot locally" type="text/vnd.tiddlywiki">
 <pre>This Quickstart shows you how to set up your bot, test it, and deploy it to the Chai app from your local development environment. 
 
 !! Installing chaiPy
@@ -10382,23 +10382,38 @@ if __name__==&quot;__main__&quot;:
     t_room.start()
 
     # Uncomment the following when you're ready to share your bot!
-    #from chai_py import upload_and_deploy
 
-    #upload_and_deploy(&quot;bot/package.zip&quot;)
+    &quot;&quot;&quot;
+    from chai_py import package, Metadata
+    from chai_py.defaults import GUEST_UID
+
+    package(
+        Metadata(
+            name='Example Bot',
+            image_url='http://picsum.photos/seed/256/256',
+            color='f1a2b3',
+            developer_uid=GUEST_UID,
+            description='I am an example bot.',
+            input_class=Bot,
+        )
+    )
+
+
+    from chai_py import upload_and_deploy
+    upload_and_deploy(&quot;bot/package.zip&quot;)
+    &quot;&quot;&quot;
 ```
 
 
 </pre>
 </div>
-<div created="20210220142741113" modified="20210303105829475" tags="chaiPy" title="Getting Started" type="text/vnd.tiddlywiki">
+<div created="20210220142741113" modified="20210303122222744" tags="chaiPy" title="Getting Started" type="text/vnd.tiddlywiki">
 <pre>\define lingo-base() $:/language/ControlPanel/Basics/
 
 Welcome to chaiPy! Our package allows you to build your own chat bot and deploy it on the Chai app ([[download the iPhone app here|https://testflight.apple.com/join/NTbAiv8K]]) all within the space of a few minutes.
 
 !! Recommended
-To develop your bot in a Google Colab notebook, follow the tutorial here:
-
-https://colab.research.google.com/drive/1YB6mQkcmisEBIHOjvGnWi0z9lLiaRNT5?usp=sharing#scrollTo=96u3ccs_YgvK
+To develop your bot in a Google Colab notebook, [[follow the tutorial here|https://colab.research.google.com/drive/1YB6mQkcmisEBIHOjvGnWi0z9lLiaRNT5?usp=sharing#scrollTo=96u3ccs_YgvK]]:
 
 !! Developing your bot locally
 If you'd like to deploy your bot locally, the experience will be just as smooth as deploying it from a notebook. However, we don't recommend this method because you'll have to install a few dependencies yourself.
